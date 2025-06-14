@@ -11,7 +11,8 @@ import ENV from '@src/common/constants/ENV';
 import HttpStatusCodes from '@src/common/constants/HttpStatusCodes';
 import { RouteError } from '@src/common/util/route-errors';
 import { NodeEnvs } from '@src/common/constants';
-
+import { connectDB } from './database/connection';
+import { User, UserSchema } from './database/schemas/UserSchema';
 
 /******************************************************************************
                                 Setup
@@ -38,6 +39,9 @@ if (ENV.NodeEnv === NodeEnvs.Production) {
     app.use(helmet());
   }
 }
+
+// Connect to database
+connectDB()
 
 // Add APIs, must be after middleware
 app.use(Paths.Base, BaseRouter);
@@ -67,8 +71,14 @@ const staticDir = path.join(__dirname, 'public');
 app.use(express.static(staticDir));
 
 // Nav to users pg by default
-app.get('/', (_: Request, res: Response) => {
-  return res.redirect('/users');
+app.get('/', async (_: Request, res: Response): Promise<any> => {
+  res.json({
+    title: 'Jean Credit Api',
+    description: 'Jean Credit Api is a RESTful API for managing user data.',
+    version: '1.0.0',
+    'owner': 'Jean Credit',
+    'created-at': new Date().toISOString(),
+  })
 });
 
 /******************************************************************************

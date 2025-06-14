@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import Paths from '@src/common/constants/Paths';
 import userRouter from './pages/UserRoutes';
+import authRouter from './pages/AuthRoutes';
 
 
 /******************************************************************************
@@ -21,8 +22,8 @@ const apiRouter = Router();
 // userRouter.delete(Paths.Users.Delete, );
 
 // Add UserRouter
+apiRouter.use(Paths.Auth.Base, authRouter);
 apiRouter.use(Paths.Users.Base, userRouter);
-
 
 /******************************************************************************
                                 Export default
