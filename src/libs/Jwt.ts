@@ -7,7 +7,13 @@ import type { SignOptions } from 'jsonwebtoken';
 const JWT_SECRET = ENV.JwtSecretKey || 'your-fallback-secret';
 const TOKEN_EXPIRATION = ENV.JwtTokenExpiration || '1h';
 
-async function Authenticate(data: Omit<IUser, "password">): Promise<any> {
+type JwtPayload = {
+    userId: string;
+    email: string;
+    isAdmin?: boolean;
+}
+
+async function Authenticate(data: JwtPayload): Promise<any> {
     const payload = { ...data };
     return jwt.sign(
         payload,

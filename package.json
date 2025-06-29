@@ -9,7 +9,9 @@
     "lint": "eslint .",
     "start": "NODE_ENV=production node -r ./config.js ./dist",
     "test": "NODE_ENV=test vitest",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "db:init": "NODE_ENV=development ts-node ./src/scripts/initDatabase.ts",
+    "db:seed": "NODE_ENV=development ts-node -e \"import('./src/utils/seedDatabase').then(m => m.seedDatabase())\""
   },
   "engines": {
     "node": ">=16.0.0"
